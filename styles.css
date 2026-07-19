@@ -1,0 +1,260 @@
+.theme-light .daymark-annotation {
+	color: var(--daymark-light-color);
+}
+
+.theme-dark .daymark-annotation {
+	color: var(--daymark-dark-color);
+}
+
+.daymark-task-completion {
+	color: inherit;
+	text-decoration-line: line-through;
+}
+
+.theme-light .daymark-task-completion,
+.theme-light .daymark-task-completion-line {
+	text-decoration-color: var(--daymark-light-color);
+}
+
+.theme-dark .daymark-task-completion,
+.theme-dark .daymark-task-completion-line {
+	text-decoration-color: var(--daymark-dark-color);
+}
+
+.daymark-native-internal-links
+	.daymark-annotation:where(.cm-hmd-internal-link, .internal-link),
+.daymark-native-internal-links
+	.daymark-annotation
+	:where(.cm-hmd-internal-link, .internal-link) {
+	color: var(--link-color);
+}
+
+.daymark-native-internal-links
+	:where(.cm-hmd-internal-link, .internal-link)
+	.daymark-annotation {
+	color: inherit;
+}
+
+.daymark-native-internal-links .daymark-annotation:where(.is-unresolved),
+.daymark-native-internal-links .daymark-annotation :where(.is-unresolved) {
+	color: var(--link-unresolved-color);
+}
+
+.daymark-native-external-links
+	.daymark-annotation:where(
+		.cm-hmd-external-link,
+		.cm-link:not(.cm-hmd-internal-link),
+		.cm-url,
+		.external-link
+	),
+.daymark-native-external-links
+	.daymark-annotation
+	:where(
+		.cm-hmd-external-link,
+		.cm-link:not(.cm-hmd-internal-link),
+		.cm-url,
+		.external-link
+	) {
+	color: var(--link-external-color, var(--link-color));
+}
+
+.daymark-native-external-links
+	:where(
+		.cm-hmd-external-link,
+		.cm-link:not(.cm-hmd-internal-link),
+		.cm-url,
+		.external-link
+	)
+	.daymark-annotation {
+	color: inherit;
+}
+
+.daymark-display-off .daymark-annotation {
+	color: inherit;
+}
+
+.tooltip.daymark-tooltip {
+	animation: none;
+	font-family: var(--font-interface);
+	font-size: var(--font-ui-small);
+	font-weight: var(--font-normal);
+	transition: none;
+}
+
+.daymark-modal .modal-content {
+	color: var(--text-normal);
+}
+
+.daymark-legend {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	margin: var(--size-4-4) 0;
+	padding: 0;
+}
+
+.daymark-legend-item {
+	align-items: center;
+	display: flex;
+	gap: var(--size-4-3);
+	list-style: none;
+}
+
+.daymark-swatch {
+	border: var(--border-width) solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	display: inline-block;
+	height: var(--size-4-4);
+	width: var(--size-4-4);
+}
+
+.theme-light .daymark-swatch {
+	background-color: var(--daymark-light-color);
+}
+
+.theme-dark .daymark-swatch {
+	background-color: var(--daymark-dark-color);
+}
+
+.daymark-modal button {
+	min-height: 44px;
+	min-width: 44px;
+}
+
+.daymark-modal button:focus-visible {
+	outline: 2px solid var(--interactive-accent);
+	outline-offset: 2px;
+}
+
+.daymark-settings .clickable-icon,
+.daymark-settings button,
+.daymark-settings input[type="color"] {
+	min-height: 44px;
+	min-width: 44px;
+}
+
+.daymark-cycle-description {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	margin: 0 0 var(--size-4-3);
+	padding-left: var(--size-4-4);
+}
+
+.daymark-palette-group {
+	margin-bottom: var(--size-4-4);
+}
+
+.daymark-settings .setting-items.daymark-palette-table {
+	background: var(--background-primary-alt);
+	border: 0;
+	border-radius: var(--radius-l);
+	overflow: hidden;
+	padding: var(--size-4-1) var(--size-4-5) var(--size-4-2);
+}
+
+.daymark-settings .daymark-palette-table > .setting-item {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	margin: 0;
+	min-height: 44px;
+	padding: var(--size-4-2) 0;
+}
+
+.daymark-settings
+	.daymark-palette-table
+	> .setting-item
+	+ .setting-item {
+	border-top: var(--border-width) solid var(--background-modifier-border);
+}
+
+.daymark-palette-setting .setting-item-control {
+	display: grid;
+	gap: var(--size-4-1);
+	grid-template-columns: 84px 84px repeat(3, 44px);
+}
+
+.daymark-color-field {
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.daymark-color-mode {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-normal);
+	margin-right: var(--size-4-1);
+}
+
+.daymark-color-swatch {
+	height: 44px;
+	justify-self: center;
+	position: relative;
+	width: 44px;
+}
+
+.daymark-color-swatch::before {
+	background: var(--daymark-picker-color);
+	border: var(--border-width) solid var(--background-modifier-border-hover);
+	border-radius: 50%;
+	content: "";
+	inset: 10px;
+	pointer-events: none;
+	position: absolute;
+}
+
+.daymark-color-swatch:focus-within::before {
+	box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+}
+
+.daymark-settings .daymark-color-swatch input[type="color"] {
+	cursor: pointer;
+	height: 44px;
+	inset: 0;
+	min-height: 44px;
+	min-width: 44px;
+	opacity: 0;
+	padding: 0;
+	position: absolute;
+	width: 44px;
+}
+
+.daymark-palette-actions .setting-item-info {
+	display: none;
+}
+
+.daymark-palette-actions .setting-item-control {
+	justify-content: flex-end;
+	width: 100%;
+}
+
+.daymark-settings
+	.daymark-palette-table
+	> .daymark-palette-actions {
+	padding-bottom: 0;
+}
+
+.daymark-settings .daymark-compact-button {
+	min-height: var(--input-height);
+	min-width: 0;
+	padding-inline: var(--size-4-3);
+}
+
+.daymark-palette-options-group,
+.daymark-cycle-behavior-group,
+.daymark-tooltip-group,
+.daymark-task-group {
+	margin-top: var(--size-4-3);
+}
+
+.daymark-palette-options,
+.daymark-link-items,
+.daymark-tooltip-items,
+.daymark-task-items,
+.daymark-cycle-behavior-group .setting-items {
+	background: var(--background-primary-alt);
+	border-radius: var(--radius-l);
+	padding: var(--size-4-5);
+}

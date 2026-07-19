@@ -1,0 +1,36 @@
+{
+  "name": "daymark",
+  "version": "0.1.0",
+  "description": "Reveals when later additions were made without changing note Markdown.",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "obsidian",
+    "obsidian-plugin"
+  ],
+  "author": "benhancock",
+  "license": "MIT",
+  "devDependencies": {
+    "@codemirror/commands": "6.8.1",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.38.6",
+    "@types/diff-match-patch": "^1.0.36",
+    "@types/node": "^22.15.17",
+    "diff-match-patch": "^1.0.5",
+    "esbuild": "0.25.5",
+    "eslint": "^9.39.4",
+    "eslint-plugin-obsidianmd": "^0.4.0",
+    "globals": "^17.6.0",
+    "jiti": "^2.6.1",
+    "obsidian": "latest",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.59.1",
+    "vitest": "^3.2.4"
+  }
+}
