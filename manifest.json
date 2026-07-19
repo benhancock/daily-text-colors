@@ -1,9 +1,10 @@
 {
   "id": "daymark",
   "name": "Daymark",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "minAppVersion": "1.8.7",
   "description": "Reveals when later additions were made without changing note Markdown.",
   "author": "benhancock",
+  "authorUrl": "https://github.com/benhancock",
   "isDesktopOnly": false
 }

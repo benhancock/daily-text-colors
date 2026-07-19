@@ -1,6 +1,6 @@
 {
   "name": "daymark",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reveals when later additions were made without changing note Markdown.",
   "main": "main.js",
   "type": "module",
@@ -16,6 +16,14 @@
   ],
   "author": "benhancock",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benhancock/daymark.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benhancock/daymark/issues"
+  },
+  "homepage": "https://github.com/benhancock/daymark#readme",
   "devDependencies": {
     "@codemirror/commands": "6.8.1",
     "@codemirror/state": "^6.5.0",

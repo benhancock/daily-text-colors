@@ -32,6 +32,12 @@ configuration folder.
 Daymark is local-only. It does not make network requests or send note contents to
 external services.
 
+## Privacy and permissions
+
+Daymark reads and writes only local vault/plugin data needed for annotation
+history. It does not use the clipboard, dynamic code execution, analytics, or
+network requests.
+
 ## Color palette
 
 Daymark uses the open-source [Flexoki](https://stephango.com/flexoki) palette by Steph Ango. Light and dark themes have separate defaults, and both cycles begin with red.
@@ -71,6 +77,12 @@ Open **Settings → Community plugins → Daymark** to:
 - Outside edits cannot reveal their true historical date, so newly detected text is dated when Daymark reconciles the change.
 - Already-checked tasks are not retroactively assigned a completion date.
 - Metadata sync depends on your vault and plugin-data sync configuration.
+- Color carries meaning, so use the day legend and timestamp tooltips when color alone is not enough.
+
+## Support
+
+Please report bugs and feature requests in
+[GitHub issues](https://github.com/benhancock/daymark/issues).
 
 ## Development
 
@@ -80,3 +92,7 @@ npm test
 npm run build
 npm run lint
 ```
+
+Before submitting a release, run all three checks and attach `main.js`,
+`manifest.json`, and `styles.css` to the GitHub release whose tag matches
+`manifest.json`.
