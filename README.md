@@ -87,7 +87,7 @@ Please report bugs and feature requests in
 ## Development
 
 ```bash
-npm install
+npm ci
 npm test
 npm run build
 npm run lint
