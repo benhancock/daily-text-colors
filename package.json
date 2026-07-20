@@ -1,6 +1,6 @@
 {
   "name": "daymark",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Reveals when later additions were made without changing note Markdown.",
   "main": "main.js",
   "type": "module",
