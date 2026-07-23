@@ -13,7 +13,7 @@ export class DayLegendModal extends Modal {
 	}
 
 	onOpen(): void {
-		this.modalEl.addClass("daymark-modal");
+		this.modalEl.addClass("daily-text-colors-modal");
 		this.setTitle("Day legend");
 		const counts = countCharactersByDay(this.history.spans);
 		const taskCounts = countTaskCompletionsByDay(this.history.taskCompletions);
@@ -26,13 +26,13 @@ export class DayLegendModal extends Modal {
 			});
 		} else {
 			const list = this.contentEl.createEl("ul", {
-				cls: "daymark-legend",
+				cls: "daily-text-colors-legend",
 				attr: { "aria-label": "Annotation dates" },
 			});
 			for (const day of annotatedDays) {
-				const item = list.createEl("li", { cls: "daymark-legend-item" });
+				const item = list.createEl("li", { cls: "daily-text-colors-legend-item" });
 				const swatch = item.createSpan({
-					cls: "daymark-swatch",
+					cls: "daily-text-colors-swatch",
 					attr: {
 						"role": "img",
 						"aria-label": `Color for ${day}`,
@@ -40,8 +40,8 @@ export class DayLegendModal extends Modal {
 				});
 				const colors = this.paletteColors(day);
 				swatch.setCssProps({
-					"--daymark-light-color": colors.light,
-					"--daymark-dark-color": colors.dark,
+					"--daily-text-colors-light-color": colors.light,
+					"--daily-text-colors-dark-color": colors.dark,
 				});
 				const characters = counts.get(day) ?? 0;
 				const tasks = taskCounts.get(day) ?? 0;
@@ -77,7 +77,7 @@ export class ResetBaselineModal extends Modal {
 	}
 
 	onOpen(): void {
-		this.modalEl.addClass("daymark-modal");
+		this.modalEl.addClass("daily-text-colors-modal");
 		this.setTitle("Reset annotation baseline");
 		this.contentEl.createEl("p", {
 			text: "Clear this note’s annotation history and treat its current text as the new original baseline?",
@@ -115,7 +115,7 @@ export class ReconciliationModal extends Modal {
 	}
 
 	onOpen(): void {
-		this.modalEl.addClass("daymark-modal");
+		this.modalEl.addClass("daily-text-colors-modal");
 		this.setTitle("Annotation history needs attention");
 		this.contentEl.createEl("p", {
 			text: "This note changed outside the observed editor and its annotation ranges could not be mapped safely.",

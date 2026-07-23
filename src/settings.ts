@@ -7,30 +7,30 @@ import {
 	nextDefaultColors,
 	palettePresetById,
 } from "./core/palette";
-import type Daymark from "./main";
+import type DailyTextColors from "./main";
 
-export class DaymarkSettingTab extends PluginSettingTab {
-	constructor(app: App, private readonly plugin: Daymark) {
+export class DailyTextColorsSettingTab extends PluginSettingTab {
+	constructor(app: App, private readonly plugin: DailyTextColors) {
 		super(app, plugin);
 	}
 
 	display(): void {
 		const { containerEl } = this;
 		containerEl.empty();
-		containerEl.addClass("daymark-settings");
+		containerEl.addClass("daily-text-colors-settings");
 
 		new Setting(containerEl).setName("Color cycle").setHeading();
 		containerEl.createEl("p", {
-			cls: "daymark-cycle-description",
+			cls: "daily-text-colors-cycle-description",
 			text: "Ordered mode gives each unique annotation date the next color below. Random mode picks a stable random color from the same list for each annotation date.",
 		});
 
 		const palettes = this.plugin.getPalettes();
 		const paletteOptionsGroup = containerEl.createDiv({
-			cls: "setting-group daymark-palette-options-group",
+			cls: "setting-group daily-text-colors-palette-options-group",
 		});
 		const paletteOptionsItems = paletteOptionsGroup.createDiv({
-			cls: "setting-items daymark-palette-options",
+			cls: "setting-items daily-text-colors-palette-options",
 		});
 		new Setting(paletteOptionsItems)
 			.setName("Palette preset")
@@ -75,10 +75,10 @@ export class DaymarkSettingTab extends PluginSettingTab {
 			});
 
 		const paletteGroup = containerEl.createDiv({
-			cls: "setting-group daymark-palette-group",
+			cls: "setting-group daily-text-colors-palette-group",
 		});
 		const paletteTable = paletteGroup.createDiv({
-			cls: "setting-items daymark-palette-table",
+			cls: "setting-items daily-text-colors-palette-table",
 			attr: {
 				"role": "table",
 				"aria-label": "Annotation color cycle",
@@ -94,7 +94,7 @@ export class DaymarkSettingTab extends PluginSettingTab {
 				.addColorPicker((picker) => {
 					picker.setValue(lightColor).onChange((value) => {
 						lightSwatch?.setCssProps({
-							"--daymark-picker-color": value,
+							"--daily-text-colors-picker-color": value,
 						});
 						const updated = this.plugin.getPalettes();
 						updated.light[index] = value;
@@ -104,7 +104,7 @@ export class DaymarkSettingTab extends PluginSettingTab {
 				.addColorPicker((picker) => {
 					picker.setValue(darkColor).onChange((value) => {
 						darkSwatch?.setCssProps({
-							"--daymark-picker-color": value,
+							"--daily-text-colors-picker-color": value,
 						});
 						const updated = this.plugin.getPalettes();
 						updated.dark[index] = value;
@@ -142,7 +142,7 @@ export class DaymarkSettingTab extends PluginSettingTab {
 							this.display();
 						});
 				});
-			setting.settingEl.addClass("daymark-palette-setting");
+			setting.settingEl.addClass("daily-text-colors-palette-setting");
 			setting.settingEl.setAttr("role", "row");
 			setting.nameEl.setAttr("role", "rowheader");
 			const colorInputs =
@@ -170,7 +170,7 @@ export class DaymarkSettingTab extends PluginSettingTab {
 		});
 
 		const actions = new Setting(paletteTable);
-		actions.settingEl.addClass("daymark-palette-actions");
+		actions.settingEl.addClass("daily-text-colors-palette-actions");
 		actions.settingEl.setAttr("role", "row");
 		actions
 			.addButton((button) => {
@@ -184,7 +184,7 @@ export class DaymarkSettingTab extends PluginSettingTab {
 						this.plugin.setPalettes(updated.light, updated.dark);
 						this.display();
 					});
-				button.buttonEl.addClass("daymark-compact-button");
+				button.buttonEl.addClass("daily-text-colors-compact-button");
 			})
 			.addButton((button) => {
 				button
@@ -197,11 +197,11 @@ export class DaymarkSettingTab extends PluginSettingTab {
 						this.display();
 						new Notice("Flexoki palettes restored");
 					});
-				button.buttonEl.addClass("daymark-compact-button");
+				button.buttonEl.addClass("daily-text-colors-compact-button");
 			});
 
 		const cycleBehaviorGroup = containerEl.createDiv({
-			cls: "setting-group daymark-cycle-behavior-group",
+			cls: "setting-group daily-text-colors-cycle-behavior-group",
 		});
 		const cycleBehaviorItems = cycleBehaviorGroup.createDiv({
 			cls: "setting-items",
@@ -222,10 +222,10 @@ export class DaymarkSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl).setName("Tooltips").setHeading();
 		const tooltipGroup = containerEl.createDiv({
-			cls: "setting-group daymark-tooltip-group",
+			cls: "setting-group daily-text-colors-tooltip-group",
 		});
 		const tooltipItems = tooltipGroup.createDiv({
-			cls: "setting-items daymark-tooltip-items",
+			cls: "setting-items daily-text-colors-tooltip-items",
 		});
 		new Setting(tooltipItems)
 			.setName("Show timestamp tooltips")
@@ -254,10 +254,10 @@ export class DaymarkSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl).setName("Task checkboxes").setHeading();
 		const taskGroup = containerEl.createDiv({
-			cls: "setting-group daymark-task-group",
+			cls: "setting-group daily-text-colors-task-group",
 		});
 		const taskItems = taskGroup.createDiv({
-			cls: "setting-items daymark-task-items",
+			cls: "setting-items daily-text-colors-task-items",
 		});
 		new Setting(taskItems)
 			.setName("Color completed-task strikethrough")
@@ -274,10 +274,10 @@ export class DaymarkSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl).setName("Link colors").setHeading();
 		const linkGroup = containerEl.createDiv({
-			cls: "setting-group daymark-link-group",
+			cls: "setting-group daily-text-colors-link-group",
 		});
 		const linkItems = linkGroup.createDiv({
-			cls: "setting-items daymark-link-items",
+			cls: "setting-items daily-text-colors-link-items",
 		});
 		new Setting(linkItems)
 			.setName("Apply annotation colors to wiki links")
@@ -309,13 +309,13 @@ export class DaymarkSettingTab extends PluginSettingTab {
 			return null;
 		}
 		const field = container.createDiv({
-			cls: "daymark-color-field",
+			cls: "daily-text-colors-color-field",
 			attr: { "role": "cell" },
 		});
 		container.insertBefore(field, input);
-		field.createSpan({ cls: "daymark-color-mode", text: mode });
-		const swatch = field.createDiv({ cls: "daymark-color-swatch" });
-		swatch.setCssProps({ "--daymark-picker-color": color });
+		field.createSpan({ cls: "daily-text-colors-color-mode", text: mode });
+		const swatch = field.createDiv({ cls: "daily-text-colors-color-swatch" });
+		swatch.setCssProps({ "--daily-text-colors-picker-color": color });
 		swatch.appendChild(input);
 		return swatch;
 	}

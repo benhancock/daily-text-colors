@@ -23,18 +23,18 @@ import {
 } from "./core/ranges";
 import { normalizeTaskCompletions } from "./core/tasks";
 import {
-	EMPTY_DAYMARK_DATA,
+	EMPTY_DAILY_TEXT_COLORS_DATA,
 	type AnnotationSpan,
 	type CachedNoteHistory,
-	type DaymarkData,
-	type DaymarkSettings,
-	type DaymarkSidecar,
+	type DailyTextColorsData,
+	type DailyTextColorsSettings,
+	type DailyTextColorsSidecar,
 	type NoteHistory,
 	type TaskCompletion,
 	type TextAnchor,
 } from "./types";
 
-const SIDECAR_ROOT = normalizePath(".daymark");
+const SIDECAR_ROOT = normalizePath(".daily-text-colors");
 const SIDECAR_NOTES = normalizePath(`${SIDECAR_ROOT}/notes`);
 const SIDECAR_SAVE_DELAY = 1_500;
 const INDEX_CACHE_SAVE_DELAY = 30_000;
@@ -44,7 +44,7 @@ type ReconciliationFailureHandler = (path: string) => void;
 
 interface LegacyData {
 	schemaVersion: number;
-	settings: DaymarkSettings;
+	settings: DailyTextColorsSettings;
 	notes: Record<string, NoteHistory>;
 }
 
@@ -130,7 +130,7 @@ function isCachedHistory(value: unknown): value is CachedNoteHistory {
 function settingsFrom(
 	settingsValue: unknown,
 	schemaVersion: number,
-): DaymarkSettings {
+): DailyTextColorsSettings {
 	const settings =
 		typeof settingsValue === "object" && settingsValue !== null
 			? (settingsValue as {
@@ -181,7 +181,7 @@ function settingsFrom(
 	};
 }
 
-function parseCurrentData(value: unknown): DaymarkData | null {
+function parseCurrentData(value: unknown): DailyTextColorsData | null {
 	if (typeof value !== "object" || value === null) {
 		return null;
 	}
@@ -268,11 +268,11 @@ function parseLegacyData(value: unknown): LegacyData | null {
 	};
 }
 
-function parseSidecar(value: unknown): DaymarkSidecar | null {
+function parseSidecar(value: unknown): DailyTextColorsSidecar | null {
 	if (typeof value !== "object" || value === null) {
 		return null;
 	}
-	const candidate = value as Partial<DaymarkSidecar>;
+	const candidate = value as Partial<DailyTextColorsSidecar>;
 	if (candidate.schemaVersion !== 1 || !isLegacyHistory(candidate.history)) {
 		return null;
 	}
@@ -299,7 +299,7 @@ function sidecarIdForPath(path: string): string {
 	return `${contentHash(path)}${contentHash([...path].reverse().join(""))}`;
 }
 
-function cloneData(data: DaymarkData): DaymarkData {
+function cloneData(data: DailyTextColorsData): DailyTextColorsData {
 	const notes: Record<string, CachedNoteHistory> = {};
 	for (const [path, history] of Object.entries(data.notes)) {
 		notes[path] = {
@@ -325,13 +325,13 @@ function cloneData(data: DaymarkData): DaymarkData {
 	};
 }
 
-export class DaymarkStore {
-	private data: DaymarkData = {
-		...EMPTY_DAYMARK_DATA,
+export class DailyTextColorsStore {
+	private data: DailyTextColorsData = {
+		...EMPTY_DAILY_TEXT_COLORS_DATA,
 		settings: {
-			...EMPTY_DAYMARK_DATA.settings,
-			lightPalette: [...EMPTY_DAYMARK_DATA.settings.lightPalette],
-			darkPalette: [...EMPTY_DAYMARK_DATA.settings.darkPalette],
+			...EMPTY_DAILY_TEXT_COLORS_DATA.settings,
+			lightPalette: [...EMPTY_DAILY_TEXT_COLORS_DATA.settings.lightPalette],
+			darkPalette: [...EMPTY_DAILY_TEXT_COLORS_DATA.settings.darkPalette],
 		},
 		notes: {},
 	};
@@ -404,7 +404,7 @@ export class DaymarkStore {
 			this.records.set(history.path, history);
 			this.loadedSnapshots.add(history.path);
 		}
-		const migratedData: DaymarkData = {
+		const migratedData: DailyTextColorsData = {
 			schemaVersion: 7,
 			settings: legacy.settings,
 			notes: migratedNotes,
@@ -983,7 +983,7 @@ export class DaymarkStore {
 		sidecarId: string,
 		history: NoteHistory,
 	): Promise<void> {
-		const sidecar: DaymarkSidecar = {
+		const sidecar: DailyTextColorsSidecar = {
 			schemaVersion: 1,
 			history,
 		};
@@ -995,7 +995,7 @@ export class DaymarkStore {
 
 	private async readSidecar(
 		sidecarId: string,
-	): Promise<DaymarkSidecar | null> {
+	): Promise<DailyTextColorsSidecar | null> {
 		const path = this.sidecarPath(sidecarId);
 		const adapter = this.plugin.app.vault.adapter;
 		if (!(await adapter.exists(path))) {

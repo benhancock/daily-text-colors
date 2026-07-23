@@ -29,7 +29,7 @@ import {
 	taskCompletionLineRanges,
 	taskCompletionTextRanges,
 } from "./core/tasks";
-import type { DaymarkStore } from "./store";
+import type { DailyTextColorsStore } from "./store";
 import type { AnnotationSpan, TaskCompletion } from "./types";
 
 interface EditorAnnotationState {
@@ -48,7 +48,7 @@ interface ReloadRequest {
 	path: string | null;
 }
 
-export interface DaymarkEditorController {
+export interface DailyTextColorsEditorController {
 	extension: Extension;
 	refresh(path?: string): void;
 }
@@ -104,10 +104,10 @@ function shouldTrackDocumentChange(
 	);
 }
 
-export function createDaymarkEditorController(
-	store: DaymarkStore,
+export function createDailyTextColorsEditorController(
+	store: DailyTextColorsStore,
 	isDisplayEnabled: () => boolean,
-): DaymarkEditorController {
+): DailyTextColorsEditorController {
 	const editorViews = new Set<EditorView>();
 	let annotationField: StateField<EditorAnnotationState>;
 
@@ -123,12 +123,12 @@ export function createDaymarkEditorController(
 		const annotationDecorations = spans.map((span) => {
 			const paletteIndex = store.paletteIndex(path, span.day);
 			return Decoration.mark({
-				class: "daymark-annotation",
+				class: "daily-text-colors-annotation",
 				attributes: {
-					"data-daymark-date": span.day,
-					"data-daymark-path": path,
-					"data-daymark-color-index": String(paletteIndex),
-					"data-daymark-tooltip": `Added on ${formatAnnotationDay(span.day)}`,
+					"data-daily-text-colors-date": span.day,
+					"data-daily-text-colors-path": path,
+					"data-daily-text-colors-color-index": String(paletteIndex),
+					"data-daily-text-colors-tooltip": `Added on ${formatAnnotationDay(span.day)}`,
 					"aria-description": `Added on ${formatAnnotationDay(span.day)}`,
 				},
 			}).range(span.from, span.to);
@@ -137,12 +137,12 @@ export function createDaymarkEditorController(
 			? taskCompletionTextRanges(content, taskCompletions).map((range) => {
 					const paletteIndex = store.paletteIndex(path, range.day);
 					return Decoration.mark({
-						class: "daymark-task-completion",
+						class: "daily-text-colors-task-completion",
 						attributes: {
-							"data-daymark-date": range.day,
-							"data-daymark-path": path,
-							"data-daymark-color-index": String(paletteIndex),
-							"data-daymark-tooltip": `Checked on ${formatAnnotationDay(range.day)}`,
+							"data-daily-text-colors-date": range.day,
+							"data-daily-text-colors-path": path,
+							"data-daily-text-colors-color-index": String(paletteIndex),
+							"data-daily-text-colors-tooltip": `Checked on ${formatAnnotationDay(range.day)}`,
 							"aria-description": `Checked on ${formatAnnotationDay(range.day)}`,
 						},
 					}).range(range.from, range.to);
@@ -152,12 +152,12 @@ export function createDaymarkEditorController(
 			? taskCompletionLineRanges(content, taskCompletions).map((range) => {
 					const paletteIndex = store.paletteIndex(path, range.day);
 					return Decoration.line({
-						class: "daymark-task-completion-line",
+						class: "daily-text-colors-task-completion-line",
 						attributes: {
-							"data-daymark-date": range.day,
-							"data-daymark-path": path,
-							"data-daymark-color-index": String(paletteIndex),
-							"data-daymark-tooltip": `Checked on ${formatAnnotationDay(range.day)}`,
+							"data-daily-text-colors-date": range.day,
+							"data-daily-text-colors-path": path,
+							"data-daily-text-colors-color-index": String(paletteIndex),
+							"data-daily-text-colors-tooltip": `Checked on ${formatAnnotationDay(range.day)}`,
 							"aria-description": `Checked on ${formatAnnotationDay(range.day)}`,
 						},
 					}).range(range.from);
@@ -338,7 +338,7 @@ export function createDaymarkEditorController(
 	});
 
 	const trackEditors = ViewPlugin.fromClass(
-		class DaymarkEditorTracker {
+		class DailyTextColorsEditorTracker {
 			constructor(readonly view: EditorView) {
 				editorViews.add(view);
 				this.bindTooltips();
@@ -357,37 +357,37 @@ export function createDaymarkEditorController(
 					read: (view) =>
 						Array.from(
 							view.dom.querySelectorAll<HTMLElement>(
-								".daymark-annotation, .daymark-task-completion, .daymark-task-completion-line",
+								".daily-text-colors-annotation, .daily-text-colors-task-completion, .daily-text-colors-task-completion-line",
 							),
 						),
 					write: (elements) => {
 						for (const element of elements) {
-							const day = element.dataset.daymarkDate;
-							const colorIndex = Number(element.dataset.daymarkColorIndex);
+							const day = element.dataset.dailyTextColorsDate;
+							const colorIndex = Number(element.dataset.dailyTextColorsColorIndex);
 							if (Number.isInteger(colorIndex)) {
 								const colors = store.paletteColorsAt(colorIndex);
 								element.setCssProps({
-									"--daymark-light-color": colors.light,
-									"--daymark-dark-color": colors.dark,
+									"--daily-text-colors-light-color": colors.light,
+									"--daily-text-colors-dark-color": colors.dark,
 								});
 							}
 							if (!day || !store.shouldShowAnnotationTooltip(day)) {
 								continue;
 							}
-							if (element.hasClass("daymark-tooltip-bound")) {
+							if (element.hasClass("daily-text-colors-tooltip-bound")) {
 								continue;
 							}
 							setTooltip(
 								element,
-								element.dataset.daymarkTooltip ??
+								element.dataset.dailyTextColorsTooltip ??
 									`Added on ${formatAnnotationDay(day)}`,
 								{
 									placement: "top",
 									delay: 150,
-									classes: ["daymark-tooltip"],
+									classes: ["daily-text-colors-tooltip"],
 								},
 							);
-							element.addClass("daymark-tooltip-bound");
+							element.addClass("daily-text-colors-tooltip-bound");
 						}
 					},
 				});

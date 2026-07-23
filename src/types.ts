@@ -35,7 +35,7 @@ export interface NoteHistory {
 	taskCompletions: TaskCompletion[];
 }
 
-export interface DaymarkSettings {
+export interface DailyTextColorsSettings {
 	lightPalette: string[];
 	darkPalette: string[];
 	colorCycleLoops: boolean;
@@ -47,9 +47,9 @@ export interface DaymarkSettings {
 	useNativeExternalLinks: boolean;
 }
 
-export interface DaymarkData {
+export interface DailyTextColorsData {
 	schemaVersion: 7;
-	settings: DaymarkSettings;
+	settings: DailyTextColorsSettings;
 	notes: Record<string, CachedNoteHistory>;
 }
 
@@ -64,12 +64,12 @@ export interface CachedNoteHistory {
 	taskCompletions: TaskCompletion[];
 }
 
-export interface DaymarkSidecar {
+export interface DailyTextColorsSidecar {
 	schemaVersion: 1;
 	history: NoteHistory;
 }
 
-export const EMPTY_DAYMARK_DATA: DaymarkData = {
+export const EMPTY_DAILY_TEXT_COLORS_DATA: DailyTextColorsData = {
 	schemaVersion: 7,
 	settings: {
 		lightPalette: [...DEFAULT_LIGHT_PALETTE],

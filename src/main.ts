@@ -1,7 +1,7 @@
 import { MarkdownView, Notice, Plugin, TFile } from "obsidian";
 import {
-	createDaymarkEditorController,
-	type DaymarkEditorController,
+	createDailyTextColorsEditorController,
+	type DailyTextColorsEditorController,
 } from "./editor-extension";
 import {
 	DayLegendModal,
@@ -9,26 +9,26 @@ import {
 	ResetBaselineModal,
 } from "./modals";
 import { renderReadingAnnotations } from "./reading-view";
-import { DaymarkSettingTab } from "./settings";
-import { DaymarkStore } from "./store";
+import { DailyTextColorsSettingTab } from "./settings";
+import { DailyTextColorsStore } from "./store";
 import type { PaletteMode, PalettePair } from "./core/palette";
 
-export default class Daymark extends Plugin {
-	private store!: DaymarkStore;
-	private editorController!: DaymarkEditorController;
+export default class DailyTextColors extends Plugin {
+	private store!: DailyTextColorsStore;
+	private editorController!: DailyTextColorsEditorController;
 	private displayEnabled = true;
 	private readonly openRecoveryDialogs = new Set<string>();
 
 	async onload(): Promise<void> {
-		this.store = new DaymarkStore(this, (path) => this.showReconciliationFailure(path));
+		this.store = new DailyTextColorsStore(this, (path) => this.showReconciliationFailure(path));
 		await this.store.load();
 
-		this.editorController = createDaymarkEditorController(
+		this.editorController = createDailyTextColorsEditorController(
 			this.store,
 			() => this.displayEnabled,
 		);
 		this.registerEditorExtension(this.editorController.extension);
-		this.addSettingTab(new DaymarkSettingTab(this.app, this));
+		this.addSettingTab(new DailyTextColorsSettingTab(this.app, this));
 		this.registerMarkdownPostProcessor(async (element, context) => {
 			if (!this.displayEnabled) {
 				return;
@@ -57,9 +57,9 @@ export default class Daymark extends Plugin {
 
 	onunload(): void {
 		this.app.workspace.containerEl.removeClasses([
-			"daymark-display-off",
-			"daymark-native-internal-links",
-			"daymark-native-external-links",
+			"daily-text-colors-display-off",
+			"daily-text-colors-native-internal-links",
+			"daily-text-colors-native-external-links",
 		]);
 		void this.store.flush();
 	}
@@ -270,7 +270,7 @@ export default class Daymark extends Plugin {
 
 	private applyDisplayState(): void {
 		this.app.workspace.containerEl.toggleClass(
-			"daymark-display-off",
+			"daily-text-colors-display-off",
 			!this.displayEnabled,
 		);
 	}
@@ -278,11 +278,11 @@ export default class Daymark extends Plugin {
 	private applyLinkStyleState(): void {
 		const workspace = this.app.workspace.containerEl;
 		workspace.toggleClass(
-			"daymark-native-internal-links",
+			"daily-text-colors-native-internal-links",
 			this.store.useNativeInternalLinks(),
 		);
 		workspace.toggleClass(
-			"daymark-native-external-links",
+			"daily-text-colors-native-external-links",
 			this.store.useNativeExternalLinks(),
 		);
 	}
@@ -290,21 +290,21 @@ export default class Daymark extends Plugin {
 	private refreshRenderedColors(): void {
 		const ownerDocument = this.app.workspace.containerEl.ownerDocument;
 		const annotations = ownerDocument.querySelectorAll<HTMLElement>(
-			".daymark-annotation[data-daymark-color-index], .daymark-task-completion[data-daymark-color-index], .daymark-task-completion-line[data-daymark-color-index]",
+			".daily-text-colors-annotation[data-daily-text-colors-color-index], .daily-text-colors-task-completion[data-daily-text-colors-color-index], .daily-text-colors-task-completion-line[data-daily-text-colors-color-index]",
 		);
 		annotations.forEach((annotation) => {
-			const path = annotation.dataset.daymarkPath;
-			const day = annotation.dataset.daymarkDate;
+			const path = annotation.dataset.dailyTextColorsPath;
+			const day = annotation.dataset.dailyTextColorsDate;
 			const index =
 				path && day
 					? this.store.paletteIndex(path, day)
-					: Number(annotation.dataset.daymarkColorIndex);
+					: Number(annotation.dataset.dailyTextColorsColorIndex);
 			if (Number.isInteger(index)) {
-				annotation.dataset.daymarkColorIndex = String(index);
+				annotation.dataset.dailyTextColorsColorIndex = String(index);
 				const colors = this.store.paletteColorsAt(index);
 				annotation.setCssProps({
-					"--daymark-light-color": colors.light,
-					"--daymark-dark-color": colors.dark,
+					"--daily-text-colors-light-color": colors.light,
+					"--daily-text-colors-dark-color": colors.dark,
 				});
 			}
 		});

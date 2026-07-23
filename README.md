@@ -12,7 +12,7 @@ It is designed for chronological annotation: existing note text remains the base
 - YAML frontmatter, fenced code, inline code, and Markdown punctuation are not colored.
 - Wiki links and external links can keep their native styling or use annotation colors.
 - Completed task strikethroughs can optionally be colored by the date the task was checked.
-- Annotation history is stored in per-note sidecars under `.daymark/notes/`.
+- Annotation history is stored in per-note sidecars under `.daily-text-colors/notes/`.
 - A compact index beside the plugin bundle keeps startup fast; full note snapshots
   are loaded only when Daily Text Colors needs to reconcile an outside edit.
 - Notes without annotations are not persisted, avoiding full-vault snapshot growth.
@@ -26,7 +26,7 @@ note path inside the JSON record, so renames can be tracked safely.
 
 The plugin's `data.json` contains settings plus a compact annotation index used to
 color notes without loading every sidecar at startup. If you sync a vault between
-devices, include the hidden `.daymark` folder as well as the normal Obsidian
+devices, include the hidden `.daily-text-colors` folder as well as the normal Obsidian
 configuration folder.
 
 Daily Text Colors is local-only. It does not make network requests or send note contents to
@@ -67,8 +67,8 @@ Open **Settings → Community plugins → Daily Text Colors** to:
 ## Manual install
 
 1. Download `main.js`, `manifest.json`, and `styles.css` from the latest GitHub release.
-2. Create a folder named `daymark` — the plugin ID — inside your vault’s `.obsidian/plugins/` folder.
-3. Place those three files in `.obsidian/plugins/daymark/`.
+2. Create a folder named `daily-text-colors` — the plugin ID — inside your vault’s `.obsidian/plugins/` folder.
+3. Place those three files in `.obsidian/plugins/daily-text-colors/`.
 4. Reload Obsidian.
 5. Enable Daily Text Colors under **Settings → Community plugins**.
 
@@ -82,7 +82,7 @@ Open **Settings → Community plugins → Daily Text Colors** to:
 ## Support
 
 Please report bugs and feature requests in
-[GitHub issues](https://github.com/benhancock/daymark/issues).
+[GitHub issues](https://github.com/benhancock/daily-text-colors/issues).
 
 ## Development
 

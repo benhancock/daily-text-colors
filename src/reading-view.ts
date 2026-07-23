@@ -1,7 +1,7 @@
 import { setTooltip, type MarkdownPostProcessorContext } from "obsidian";
 import { formatAnnotationDay } from "./core/dates";
 import { taskCompletionTextRanges } from "./core/tasks";
-import type { DaymarkStore } from "./store";
+import type { DailyTextColorsStore } from "./store";
 
 interface TextNodeIndex {
 	node: Text;
@@ -52,7 +52,7 @@ function collectTextNodes(root: HTMLElement): TextNodeIndex[] {
 		if (
 			parent &&
 			text.length > 0 &&
-			!parent.closest("code, pre, script, style, .frontmatter, .daymark-annotation")
+			!parent.closest("code, pre, script, style, .frontmatter, .daily-text-colors-annotation")
 		) {
 			nodes.push({
 				node: current as Text,
@@ -91,7 +91,7 @@ function tokensFromRanges(
 	return tokens;
 }
 
-function wrapOperation(operation: WrapOperation, store: DaymarkStore): void {
+function wrapOperation(operation: WrapOperation, store: DailyTextColorsStore): void {
 	const parent = operation.node.parentElement;
 	if (!parent) {
 		return;
@@ -103,41 +103,41 @@ function wrapOperation(operation: WrapOperation, store: DaymarkStore): void {
 	const wrapper = parent.createSpan({
 		cls: operation.className,
 		attr: {
-			"data-daymark-date": operation.day,
-			"data-daymark-path": operation.path,
-			"data-daymark-color-index": String(operation.paletteIndex),
-			"data-daymark-tooltip": operation.description,
+			"data-daily-text-colors-date": operation.day,
+			"data-daily-text-colors-path": operation.path,
+			"data-daily-text-colors-color-index": String(operation.paletteIndex),
+			"data-daily-text-colors-tooltip": operation.description,
 			"aria-description": operation.description,
 		},
 	});
 	const colors = store.paletteColorsAt(operation.paletteIndex);
 	wrapper.setCssProps({
-		"--daymark-light-color": colors.light,
-		"--daymark-dark-color": colors.dark,
+		"--daily-text-colors-light-color": colors.light,
+		"--daily-text-colors-dark-color": colors.dark,
 	});
 	parent.insertBefore(wrapper, marked);
 	wrapper.appendChild(marked);
-	if (operation.className === "daymark-task-completion") {
+	if (operation.className === "daily-text-colors-task-completion") {
 		const taskContainer = wrapper.closest<HTMLElement>(
 			".task-list-item, li[data-task]",
 		);
-		taskContainer?.addClass("daymark-task-completion-line");
+		taskContainer?.addClass("daily-text-colors-task-completion-line");
 		taskContainer?.setCssProps({
-			"--daymark-light-color": colors.light,
-			"--daymark-dark-color": colors.dark,
+			"--daily-text-colors-light-color": colors.light,
+			"--daily-text-colors-dark-color": colors.dark,
 		});
 		taskContainer?.setAttrs({
-			"data-daymark-date": operation.day,
-			"data-daymark-path": operation.path,
-			"data-daymark-color-index": String(operation.paletteIndex),
-			"data-daymark-tooltip": operation.description,
+			"data-daily-text-colors-date": operation.day,
+			"data-daily-text-colors-path": operation.path,
+			"data-daily-text-colors-color-index": String(operation.paletteIndex),
+			"data-daily-text-colors-tooltip": operation.description,
 		});
 	}
 	if (store.shouldShowAnnotationTooltip(operation.day)) {
 		setTooltip(wrapper, operation.description, {
 			placement: "top",
 			delay: 150,
-			classes: ["daymark-tooltip"],
+			classes: ["daily-text-colors-tooltip"],
 		});
 	}
 }
@@ -148,7 +148,7 @@ function renderTokenWrappers(options: {
 	path: string;
 	className: string;
 	descriptionPrefix: string;
-	store: DaymarkStore;
+	store: DailyTextColorsStore;
 }): void {
 	if (options.tokens.length === 0) {
 		return;
@@ -196,7 +196,7 @@ function renderTokenWrappers(options: {
 export function renderReadingAnnotations(
 	element: HTMLElement,
 	context: MarkdownPostProcessorContext,
-	store: DaymarkStore,
+	store: DailyTextColorsStore,
 	displayEnabled: boolean,
 	sourceContent: string,
 ): void {
@@ -229,7 +229,7 @@ export function renderReadingAnnotations(
 				taskCompletionTextRanges(sourceContent, history.taskCompletions),
 			),
 			path: context.sourcePath,
-			className: "daymark-task-completion",
+			className: "daily-text-colors-task-completion",
 			descriptionPrefix: "Checked on",
 			store,
 		});
@@ -244,7 +244,7 @@ export function renderReadingAnnotations(
 			history.spans,
 		),
 		path: context.sourcePath,
-		className: "daymark-annotation",
+		className: "daily-text-colors-annotation",
 		descriptionPrefix: "Added on",
 		store,
 	});

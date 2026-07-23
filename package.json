@@ -1,6 +1,6 @@
 {
-  "name": "daymark",
-  "version": "0.1.1",
+  "name": "daily-text-colors",
+  "version": "0.1.2",
   "description": "Reveals when later additions were made without changing note Markdown.",
   "main": "main.js",
   "type": "module",
@@ -18,12 +18,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benhancock/daymark.git"
+    "url": "git+https://github.com/benhancock/daily-text-colors.git"
   },
   "bugs": {
-    "url": "https://github.com/benhancock/daymark/issues"
+    "url": "https://github.com/benhancock/daily-text-colors/issues"
   },
-  "homepage": "https://github.com/benhancock/daymark#readme",
+  "homepage": "https://github.com/benhancock/daily-text-colors#readme",
   "devDependencies": {
     "@codemirror/commands": "6.8.1",
     "@codemirror/state": "^6.5.0",
